@@ -1,7 +1,11 @@
 # Assembler Robot Platform(ARP)
 Assembler Robot Platform is a collaborative system for assembly task automation.
 
-
+# System specification
+```
+Ubuntu: 16.04
+ROS: kinetic
+```
 
 # Dependencies
 
