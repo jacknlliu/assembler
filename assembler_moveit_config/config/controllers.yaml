@@ -1,0 +1,19 @@
+controller_list:
+  - name: assembler_arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+  - name: assembler_gripper_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - bh_j11_joint
+      - bh_j12_joint
+      - bh_j22_joint
+      - bh_j32_joint

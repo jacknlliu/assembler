@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: assembler_description
+    relative_path: urdf/assembler_robot_joint_limited.urdf.xacro
+  SRDF:
+    relative_path: config/assembler_robot.srdf
+  CONFIG:
+    author_name: Jack Liu
+    author_email: jacknlliu@gmail.com
+    generated_timestamp: 1506758096

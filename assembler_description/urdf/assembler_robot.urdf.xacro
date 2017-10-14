@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+      name="assembler_robot">
+
+  <xacro:include filename="$(find assembler_description)/urdf/ur5_robot.urdf.xacro" />
+  <xacro:include filename="$(find barrett_hand_description)/urdf/bh282.urdf.xacro"/>
+
+  <!-- end effector add for barrett_hand -->
+  <xacro:bhand_macro parent="ee_link" name="bh">
+    <origin xyz="0.0 0.0 0.0" rpy="${pi/2.0} ${pi/2.0} ${pi/2.0}"/>
+  </xacro:bhand_macro>
+
+</robot>

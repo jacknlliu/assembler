@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="limited" default="true"/>
+  
+  <param if="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find assembler_description)/urdf/assembler_robot_gazebo_world.xacro'" />
+</launch>

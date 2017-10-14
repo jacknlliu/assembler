@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- we still not wrap this as a robot name, because we should add hand -->
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+
+  <!-- ur5 -->
+  <xacro:include filename="$(find assembler_description)/urdf/ur5.urdf.xacro" />
+
+  <!-- arm -->
+  <xacro:ur5_robot prefix="" joint_limited="true"/>
+
+  <!-- See https://github.com/ros-industrial/universal_robot/pull/284/files -->
+  <link name="robot_base" />
+
+  <joint name="robot_base_joint" type="fixed">
+     <parent link="robot_base" />
+     <child link = "base_link" />
+     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+</robot>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="limited" default="true"/>
+  <arg name="paused" default="false"/>
+  <arg name="gui" default="true"/>
+
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!--<arg name="world_name" default="worlds/empty.world"/>-->
+    <arg name="world_name" default="$(find assembler_description)/world/myworkcell-with-all.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <env name="GAZEBO_MODEL_PATH" value="/home/ros/.gazebo/models:$(find assembler_description)/models:${GAZEBO_MODEL_PATH}"/>
+  </include>
+
+  <!-- send robot urdf to param server as 'robot_description' -->
+  <include file="$(find assembler_description)/launch/robot_upload.launch">
+    <arg name="limited" value="$(arg limited)"/>
+  </include>
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot" respawn="false" output="screen" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="robot_base_broadcaster" args="0.0 0.0 1.28 0 0 0 1 world robot_base" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="kinect_link_broadcaster" args="1.64687 -1.56858 1.5046 0 -0.0001 2.17579 world kinect_link" />
+
+
+  <!-- start gazebo control for ur5 -->
+  <rosparam file="$(find assembler_gazebo)/config/arm_controller_ur5.yaml" command="load"/>
+
+  <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn arm_controller" respawn="false" output="screen"/>
+
+  <!-- start gazebo control for barret hand -->
+  <rosparam file="$(find assembler_gazebo)/config/bhand_controller.yaml" command="load"/>
+
+  <!-- load the controllers that come up when started-->
+  <node name="barret_hand_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/" args="--shutdown-timeout=10.0 --timeout=360.0 gripper_controller"/>
+
+  <!-- load robot_state_publisher etc. -->
+  <include file="$(find assembler_gazebo)/launch/controller_utils.launch"/>
+
+
+</launch>

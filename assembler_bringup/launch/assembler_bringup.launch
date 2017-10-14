@@ -1,0 +1,30 @@
+<launch>
+  <!--start gazebo_ros -->
+  <arg name="sim" default="true" />
+  <arg name="limited" default="true"/>
+  <arg name="debug" default="false" />
+  <arg name="gui" default="true"/>
+  <arg name="config" default="true"/>
+
+  <group if="$(arg sim)">
+    <include file="$(find assembler_gazebo)/launch/assembler_robot.launch">
+      <arg name="limited" value="$(arg limited)"/>
+    </include>
+  </group>
+
+  <!-- Remap follow_joint_trajectory -->
+  <remap if="$(arg sim)" from="/assembler_arm_controller/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
+  <remap if="$(arg sim)" from="/assembler_gripper_controller/follow_joint_trajectory" to="/gripper_controller/follow_joint_trajectory"/>
+
+  <!--start move_group.launch-->
+  <include file="$(find assembler_moveit_config)/launch/move_group.launch">
+    <arg name="debug" default="$(arg debug)"/>
+  </include>
+
+  <group if="$(arg gui)">
+        <include file="$(find assembler_moveit_config)/launch/moveit_rviz.launch">
+            <arg name="config" value="$(arg config)"/>
+        </include>
+  </group>
+
+</launch>

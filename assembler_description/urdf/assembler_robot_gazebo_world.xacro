@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
+       name="assembler_robot" >
+
+  <xacro:include filename="$(find assembler_description)/urdf/ur5_robot_joint_limited.urdf.xacro" />
+  <xacro:include filename="$(find barrett_hand_description)/urdf/bh282.urdf.xacro"/>
+
+  <!-- end effector add for barrett_hand -->
+  <xacro:bhand_macro parent="ee_link" name="bh">
+    <origin xyz="0.0 0.0 0.0" rpy="${pi/2.0} ${pi/2.0} ${pi/2.0}"/>
+  </xacro:bhand_macro>
+
+<!--we should add world frame as root frame, because gazebo need it-->
+  <link name="world" />
+
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link = "robot_base" />
+    <origin xyz="0.0 0.0 1.28" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <!-- add force torque sensor joint -->
+  <gazebo reference="ee_fixed_joint">
+    <provideFeedback>true</provideFeedback>
+    <disableFixedJointLumping>true</disableFixedJointLumping>
+  </gazebo>
+
+    <!-- The ft_sensor plugin -->
+  <gazebo>
+    <plugin name="ft_sensor" filename="libgazebo_ros_ft_sensor.so">
+    <updateRate>100.0</updateRate>
+    <topicName>ft_sensor_topic</topicName>
+    <jointName>ee_fixed_joint</jointName>
+    </plugin>
+  </gazebo>
+
+  <!--kinect parameters-->
+  <xacro:property name="kinect_cam_py" value="-0.0125"/>
+  <xacro:property name="M_PI" value="3.14159265" />
+
+    <!-- kinetic -->
+  <joint name="kinect_joint" type="fixed">
+     <axis xyz="0 0 0" />
+      <!--<origin xyz="1.64687 -1.56858 1.4046" rpy="0 -0 2.17579" />-->
+      <origin xyz="1.64687 -1.56858 1.5046" rpy="0 -0.0001 2.17579" />
+     <parent link="world"/>
+     <child link="kinect_link"/>
+  </joint>
+
+  <!--we should add inertial tag for kinect link for avoid plugin not working, because gazebo need it-->
+  <link name="kinect_link">
+    <inertial>
+      <mass value="0.1" />
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+  </link>
+
+  <joint name="camera_rgb_joint" type="fixed">
+    <origin xyz="0.031 ${kinect_cam_py} 0.016" rpy="0 0 0"/>
+    <parent link="kinect_link"/>
+    <child link="camera_rgb_frame" />
+  </joint>
+  <link name="camera_rgb_frame"/>
+
+  <joint name="camera_rgb_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="camera_rgb_frame" />
+    <child link="camera_rgb_optical_frame" />
+  </joint>
+  <link name="camera_rgb_optical_frame"/>
+
+  <joint name="camera_depth_joint" type="fixed">
+      <origin xyz="0 ${2 * -kinect_cam_py} 0" rpy="0 0 0" />
+      <parent link="camera_rgb_frame" />
+      <child link="camera_depth_frame" />
+    </joint>
+    <link name="camera_depth_frame"/>
+
+    <joint name="camera_depth_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+      <parent link="camera_depth_frame" />
+      <child link="camera_depth_optical_frame" />
+    </joint>
+  <link name="camera_depth_optical_frame"/>
+
+  <!--add kinect plugin-->
+  <gazebo reference="kinect_link">    
+      <!--<sensor type="depth" name="3dcamera">  -->
+      <sensor type="depth" name="kinect_camera">  
+        <always_on>true</always_on>  
+        <update_rate>20.0</update_rate>  
+        <camera> 
+          <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
+          <!--<horizontal_fov>1.0472</horizontal_fov>-->
+          <image>
+            <format>R8G8B8</format>
+            <width>640</width>
+            <height>480</height>  
+          </image>  
+          <clip>  
+            <near>0.05</near>  
+            <far>3.0</far>  
+          </clip>  
+        </camera>
+        <plugin name="kinect_camera_controller" filename="libgazebo_ros_openni_kinect.so">  
+          <cameraName>3dcamera</cameraName>  
+          <alwaysOn>true</alwaysOn>  
+          <updateRate>20</updateRate>  
+          <imageTopicName>rgb/image_raw</imageTopicName>  
+          <depthImageTopicName>depth/image_raw</depthImageTopicName>  
+          <pointCloudTopicName>depth/points</pointCloudTopicName>  
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>  
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>  
+          <frameName>camera_depth_optical_frame</frameName>  
+          <baseline>0.1</baseline>  
+          <distortion_k1>0.0</distortion_k1>  
+          <distortion_k2>0.0</distortion_k2>  
+          <distortion_k3>0.0</distortion_k3>  
+          <distortion_t1>0.0</distortion_t1>  
+          <distortion_t2>0.0</distortion_t2>  
+          <pointCloudCutoff>0.4</pointCloudCutoff>  
+        </plugin>
+        </sensor>  
+  </gazebo>
+
+</robot>
