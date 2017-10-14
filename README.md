@@ -1,6 +1,10 @@
 # Assembler Robot Platform(ARP)
 Assembler Robot Platform is a collaborative system for assembly task automation.
 
+![assembler-robot-platform](resources/assembler.jpg)
+
+
+
 # System specification
 ```
 Ubuntu: 16.04
