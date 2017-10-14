@@ -1,7 +1,7 @@
 # Assembler Robot Platform(ARP)
 Assembler Robot Platform is a collaborative system for assembly task automation.
 
-![assembler-robot-platform](resources/assembler.jpg)
+![assembler-robot-platform](docs/resources/assembler.jpg)
 
 
 
