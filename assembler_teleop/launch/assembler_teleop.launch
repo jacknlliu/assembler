@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <rosparam file="$(find assembler_teleop)/config/assembler_teleop.yaml" command="load"/>
+    <node pkg="assembler_teleop" type="assembler_teleop" name="assembler_teleop_node" output="screen"/>
+</launch>
