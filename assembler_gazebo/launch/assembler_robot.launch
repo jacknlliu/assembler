@@ -29,14 +29,14 @@
   <!-- start gazebo control for ur5 -->
   <rosparam file="$(find assembler_gazebo)/config/arm_controller_ur5.yaml" command="load"/>
 
-  <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn arm_controller" respawn="false" output="screen"/>
+  <node name="arm_gazebo_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn arm_gazebo_controller" respawn="false" output="screen"/>
 
   <!-- start gazebo control for barret hand -->
   <rosparam file="$(find assembler_gazebo)/config/bhand_controller.yaml" command="load"/>
 
   <!-- load the controllers that come up when started-->
-  <node name="barret_hand_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/" args="--shutdown-timeout=10.0 --timeout=360.0 gripper_controller"/>
+  <node name="bhand_gazebo_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/" args="--shutdown-timeout=10.0 --timeout=360.0 gripper_gazebo_controller"/>
 
   <!-- load robot_state_publisher etc. -->
   <include file="$(find assembler_gazebo)/launch/controller_utils.launch"/>

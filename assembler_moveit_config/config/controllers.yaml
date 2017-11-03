@@ -1,5 +1,5 @@
 controller_list:
-  - name: assembler_arm_controller
+  - name: arm_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     joints:
@@ -9,7 +9,7 @@ controller_list:
       - wrist_1_joint
       - wrist_2_joint
       - wrist_3_joint
-  - name: assembler_gripper_controller
+  - name: gripper_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     joints:

@@ -13,8 +13,8 @@
   </group>
 
   <!-- Remap follow_joint_trajectory -->
-  <remap if="$(arg sim)" from="/assembler_arm_controller/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
-  <remap if="$(arg sim)" from="/assembler_gripper_controller/follow_joint_trajectory" to="/gripper_controller/follow_joint_trajectory"/>
+  <remap if="$(arg sim)" from="/arm_controller/follow_joint_trajectory" to="/arm_gazebo_controller/follow_joint_trajectory"/>
+  <remap if="$(arg sim)" from="/gripper_controller/follow_joint_trajectory" to="/gripper_gazebo_controller/follow_joint_trajectory"/>
 
   <!--start move_group.launch-->
   <include file="$(find assembler_moveit_config)/launch/move_group.launch">
