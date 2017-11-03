@@ -1777,7 +1777,7 @@
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/data/assembler/peg-in-hole-models/dae-second-stage/50/gap-3mm/cylinder-gap-3mm.dae</uri>
+              <uri>model://50-cylinder-peg-gap-3mm/meshes/cylinder-gap-3mm.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1801,7 +1801,7 @@
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/data/assembler/peg-in-hole-models/dae-second-stage/50/gap-3mm/cylinder-gap-3mm.dae</uri>
+              <uri>model://50-cylinder-peg-gap-3mm/meshes/cylinder-gap-3mm.dae</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
