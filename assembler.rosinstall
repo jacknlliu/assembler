@@ -1,5 +1,5 @@
-- git: {local-name: universal_robot_jack, uri: 'https://github.com/jacknlliu/universal_robot'}
-- git: {local-name: ur_modern_driver_jack, uri: 'https://github.com/jacknlliu/ur_modern_driver'}
-- git: {local-name: barrett_hand_common_jack, uri: 'https://github.com/jacknlliu/barrett_hand_common'}
-- git: {local-name: seds-ros-jack, uri: 'https://github.com/jacknlliu/seds-ros'}
+- git: {local-name: universal_robot, uri: 'https://github.com/jacknlliu/universal_robot'}
+- git: {local-name: ur_modern_driver, uri: 'https://github.com/jacknlliu/ur_modern_driver'}
+- git: {local-name: barrett_hand_common, uri: 'https://github.com/jacknlliu/barrett_hand_common'}
+- git: {local-name: seds-ros, uri: 'https://github.com/jacknlliu/seds-ros'}
 - git: {local-name: haptic_ros_driver, uri: 'https://github.com/jacknlliu/haptic_ros_driver'}
